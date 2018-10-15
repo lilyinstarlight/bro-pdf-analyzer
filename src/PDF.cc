@@ -1,7 +1,5 @@
 #include <file_analysis/Manager.h>
 
-#include <Val.h>
-
 #include "PDF.h"
 
 #include "pdf.bif.h"

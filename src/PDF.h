@@ -1,6 +1,9 @@
 #ifndef ANALYZER_PDF_H
 #define ANALYZER_PDF_H
 
+#include <Val.h>
+
+#include <file_analysis/Analyzer.h>
 #include <file_analysis/File.h>
 
 namespace file_analysis {
