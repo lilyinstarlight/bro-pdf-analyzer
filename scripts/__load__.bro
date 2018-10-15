@@ -8,5 +8,4 @@
 # only on explicit `@load <plugin-namespace>/<plugin-name>`.
 #
 
-
-
+@load ./init.bro
