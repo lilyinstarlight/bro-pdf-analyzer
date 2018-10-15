@@ -7,11 +7,10 @@
 namespace plugin {
 namespace Analyzer_PDF {
 
-class Plugin : public ::plugin::Plugin
-{
-protected:
-	// Overridden from plugin::Plugin.
-	plugin::Configuration Configure() override;
+class Plugin : public ::plugin::Plugin {
+	protected:
+		// Overridden from plugin::Plugin.
+		plugin::Configuration Configure() override;
 };
 
 extern Plugin plugin;

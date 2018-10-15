@@ -1,5 +1,5 @@
 [package]
-description = PDF file analyzer
+description = a PDF file analyzer for Zeek (Bro)
 tags = bro plugin, file analyzer, pdf
 script_dir = scripts/Analyzer/PDF
 build_command = ./configure --bro-dist=%(bro_dist)s --with-podofo=%(PODOFO_PREFIX)s && make
