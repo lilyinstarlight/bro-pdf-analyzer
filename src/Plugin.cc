@@ -1,3 +1,4 @@
+#include "PDF.h"
 
 #include "Plugin.h"
 
@@ -6,6 +7,8 @@ namespace plugin { namespace Analyzer_PDF { Plugin plugin; } }
 using namespace plugin::Analyzer_PDF;
 
 plugin::Configuration Plugin::Configure() {
+	AddComponent(new ::file_analysis::Component("PDF", ::file_analysis::PDF::Instantiate));
+
 	plugin::Configuration config;
 	config.name = "Analyzer::PDF";
 	config.description = "a PDF file analyzer for Zeek (Bro)";
