@@ -61,13 +61,20 @@ bool PDF::EndOfFile() {
 				break;
 		}
 
+		PoDoFo::PdfNamesTree * names = doc.GetNamesTree();
+
+		PoDoFo::PdfDictionary dict;
+		names->ToDictionary(PoDoFo::PdfName("JavaScript"), dict);
+
+		bool js = !dict.GetKeys().empty();
+
 		RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
 
 		if (!ver.empty())
 			info->Assign(0, new StringVal(ver));
 
 		info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
-		info->Assign(2, new Val(false, TYPE_BOOL));
+		info->Assign(2, new Val(js, TYPE_BOOL));
 
 		BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 	}
