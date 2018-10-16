@@ -2,6 +2,8 @@ Analyzer::PDF - a PDF file analyzer for Zeek (Bro) (dynamic, version 0.1)
     [File Analyzer] PDF (ANALYZER_PDF)
     [Event] pdf_info
     [Event] pdf_too_large
+    [Event] pdf_error
     [Type] PDF::Info
+    [Type] PDF::Error
     [Constant] PDF::MAX_SIZE
 

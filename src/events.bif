@@ -1,2 +1,3 @@
 event pdf_info%(f: fa_file, info: PDF::Info%);
 event pdf_too_large%(f: fa_file%);
+event pdf_error%(f: fa_file, e: PDF::Error%);

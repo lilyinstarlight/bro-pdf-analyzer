@@ -1,5 +1,5 @@
 module PDF;
 
 export {
-	const MAX_SIZE: count = 536870912;
+	const MAX_SIZE: count = 536870912 &redef;
 }
