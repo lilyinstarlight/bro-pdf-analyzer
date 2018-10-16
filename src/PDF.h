@@ -28,7 +28,6 @@ class PDF : public file_analysis::Analyzer {
 		}
 
 		virtual bool DeliverStream(const u_char * data, uint64 len);
-
 		virtual bool EndOfFile();
 
 	protected:

@@ -8,3 +8,4 @@
 #
 
 @load ./types.bro
+@load ./consts.bro

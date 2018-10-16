@@ -16,6 +16,14 @@ PDF::~PDF() {
 }
 
 bool PDF::DeliverStream(const u_char * data, uint64 len) {
+	if (pdf_data.size() + len > BifConst::PDF::MAX_SIZE) {
+		BifEvent::generate_pdf_too_large((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref());
+
+		reporter->Error("PDF found that is too large to analyze");
+
+		return false;
+	}
+
 	pdf_data.append(reinterpret_cast<const char *>(data), len);
 
 	return true;

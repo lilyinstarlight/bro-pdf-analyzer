@@ -1,3 +1,4 @@
 module PDF;
 
 type Info: record;
+const MAX_SIZE: count;
