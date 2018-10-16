@@ -2,7 +2,7 @@ module PDF;
 
 export {
 	type Info: record {
-		ver: string;
+		ver: string &optional;
 		pages: count;
 		js: bool;
 	};

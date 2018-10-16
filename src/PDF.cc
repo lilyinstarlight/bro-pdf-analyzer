@@ -59,15 +59,13 @@ bool PDF::EndOfFile() {
 			case PoDoFo::ePdfVersion_1_7:
 				ver = "1.7";
 				break;
-
-			default:
-				ver = "UNK";
-				break;
 		}
 
 		RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
 
-		info->Assign(0, new StringVal(ver));
+		if (!ver.empty())
+			info->Assign(0, new StringVal(ver));
+
 		info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
 		info->Assign(2, new Val(false, TYPE_BOOL));
 
