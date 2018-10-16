@@ -8,5 +8,3 @@
 #
 
 @load ./types.bro
-
-

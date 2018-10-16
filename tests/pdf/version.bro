@@ -1,5 +1,5 @@
 # @TEST-EXEC: bro -Cr $TRACES/pdf.pcap %INPUT >output
 # @TEST-EXEC: btest-diff output
-event pdf_version(f: fa_file, ver: string) {
-	print ver;
+event pdf_info(f: fa_file, info: PDF::Info) {
+	print info$ver;
 }

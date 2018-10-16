@@ -1,4 +1,5 @@
 Analyzer::PDF - a PDF file analyzer for Zeek (Bro) (dynamic, version 0.1)
     [File Analyzer] PDF (ANALYZER_PDF)
-    [Event] pdf_version
+    [Event] pdf_info
+    [Type] PDF::Info
 

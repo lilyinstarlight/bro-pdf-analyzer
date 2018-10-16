@@ -2,6 +2,7 @@
 
 #include "PDF.h"
 
+#include "events.bif.h"
 #include "pdf.bif.h"
 
 using namespace file_analysis;
@@ -64,7 +65,13 @@ bool PDF::EndOfFile() {
 				break;
 		}
 
-		BifEvent::generate_pdf_version((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), new StringVal(ver));
+		RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
+
+		info->Assign(0, new StringVal(ver));
+		info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
+		info->Assign(2, new Val(false, TYPE_BOOL));
+
+		BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 	}
 	catch (const PoDoFo::PdfError & e) {
 		reporter->Error("could not read PDF: %s", e.what());

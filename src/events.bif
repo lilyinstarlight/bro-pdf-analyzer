@@ -1,0 +1,1 @@
+event pdf_info%(f: fa_file, info: PDF::Info%);
