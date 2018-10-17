@@ -6,5 +6,7 @@ build_command = ./configure --bro-dist=%(bro_dist)s --with-podofo=%(PODOFO_PREFI
 user_vars =
   PODOFO_PREFIX [/usr] "PoDoFo install prefix"
 test_command = make test
+depends =
+  bro >=2.5.0
 external_depends =
   podofo >=0.9.3
