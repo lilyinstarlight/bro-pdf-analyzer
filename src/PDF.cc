@@ -29,7 +29,7 @@ bool PDF::DeliverStream(const u_char * data, uint64 len) {
 
 bool PDF::EndOfFile() {
 	try {
-#if PODOFO_MAJOR >= 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR >= 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 6)
+#if PODOFO_MAJOR > 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR > 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 6)
 		doc.LoadFromBuffer(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
 #else
 		doc.Load(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
@@ -292,7 +292,7 @@ bool PDF::EndOfFile() {
 				err = BifEnum::PDF::CHANGE_ON_IMMUTABLE;
 				break;
 
-#if PODOFO_MAJOR >= 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR >= 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 5)
+#if PODOFO_MAJOR > 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR > 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 5)
 			case PoDoFo::ePdfError_NotCompiled:
 				err = BifEnum::PDF::NOT_COMPILED;
 				break;
