@@ -2,9 +2,10 @@ module PDF;
 
 export {
 	type Info: record {
-		ver: string &optional;
+		version: string &optional;
 		pages: count;
-		js: bool;
+		embedded: bool;
+		javascript: bool;
 	};
 
 	type Error: enum {

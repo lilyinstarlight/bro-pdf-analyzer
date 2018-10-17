@@ -35,18 +35,18 @@ event pdf_too_large(f: fa_file) {
 event pdf_error(f: fa_file, e: PDF::Error) {
 	if (f?$conns) {
 		for (idx in f$conns) {
-			NOTICE([$note=PDF_Error, $msg=fmt("PDF found with an error: %s", e), $conn=f$conns[idx]]);
+			NOTICE([$note=PDF_Error, $msg=fmt("PDF found with an error %s", e), $conn=f$conns[idx]]);
 
 			break;
 		}
 	}
 	else {
-		NOTICE([$note=PDF_Error, $msg=fmt("PDF found with an error: %s", e)]);
+		NOTICE([$note=PDF_Error, $msg=fmt("PDF found with an error %s", e)]);
 	}
 }
 
 event pdf_info(f: fa_file, info: Info) {
-	if (info$js) {
+	if (info$javascript) {
 		if (f?$conns) {
 			for (idx in f$conns) {
 				if (f$info?$filename)

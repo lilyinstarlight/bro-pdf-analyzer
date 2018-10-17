@@ -31,56 +31,60 @@ bool PDF::EndOfFile() {
 	try {
 		doc.LoadFromBuffer(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
 
-		string ver;
+		string version;
 
 		switch (doc.GetPdfVersion()) {
 			case PoDoFo::ePdfVersion_1_0:
-				ver = "1.0";
+				version = "1.0";
 				break;
 
 			case PoDoFo::ePdfVersion_1_1:
-				ver = "1.1";
+				version = "1.1";
 				break;
 
 			case PoDoFo::ePdfVersion_1_2:
-				ver = "1.2";
+				version = "1.2";
 				break;
 
 			case PoDoFo::ePdfVersion_1_3:
-				ver = "1.3";
+				version = "1.3";
 				break;
 
 			case PoDoFo::ePdfVersion_1_4:
-				ver = "1.4";
+				version = "1.4";
 				break;
 
 			case PoDoFo::ePdfVersion_1_5:
-				ver = "1.5";
+				version = "1.5";
 				break;
 
 			case PoDoFo::ePdfVersion_1_6:
-				ver = "1.6";
+				version = "1.6";
 				break;
 
 			case PoDoFo::ePdfVersion_1_7:
-				ver = "1.7";
+				version = "1.7";
 				break;
 		}
 
 		PoDoFo::PdfNamesTree * names = doc.GetNamesTree();
 
-		PoDoFo::PdfDictionary dict;
-		names->ToDictionary(PoDoFo::PdfName("JavaScript"), dict);
+		PoDoFo::PdfDictionary emb_dict;
+		names->ToDictionary(PoDoFo::PdfName("EmbeddedFiles"), emb_dict);
+		bool embedded = !emb_dict.GetKeys().empty();
 
-		bool js = !dict.GetKeys().empty();
+		PoDoFo::PdfDictionary js_dict;
+		names->ToDictionary(PoDoFo::PdfName("JavaScript"), js_dict);
+		bool javascript = !js_dict.GetKeys().empty();
 
 		RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
 
-		if (!ver.empty())
-			info->Assign(0, new StringVal(ver));
+		if (!version.empty())
+			info->Assign(0, new StringVal(version));
 
 		info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
-		info->Assign(2, new Val(js, TYPE_BOOL));
+		info->Assign(2, new Val(embedded, TYPE_BOOL));
+		info->Assign(3, new Val(javascript, TYPE_BOOL));
 
 		BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 	}
