@@ -288,7 +288,7 @@ bool PDF::EndOfFile() {
 				err = BifEnum::PDF::CHANGE_ON_IMMUTABLE;
 				break;
 
-#if PODOFO_MAJOR >= 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR >= 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 6)
+#if PODOFO_MAJOR >= 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR >= 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 5)
 			case PoDoFo::ePdfError_NotCompiled:
 				err = BifEnum::PDF::NOT_COMPILED;
 				break;
