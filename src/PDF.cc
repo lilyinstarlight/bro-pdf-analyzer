@@ -29,7 +29,11 @@ bool PDF::DeliverStream(const u_char * data, uint64 len) {
 
 bool PDF::EndOfFile() {
 	try {
+#if PODOFO_MAJOR >= 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR >= 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 6)
 		doc.LoadFromBuffer(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
+#else
+		doc.Load(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
+#endif
 
 		string version;
 
