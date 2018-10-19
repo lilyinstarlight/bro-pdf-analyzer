@@ -10,7 +10,7 @@ export {
 	type Info: record {
 		version: string &optional;
 		pages: count;
-		embedded: bool;
+		files: bool;
 		javascript: bool;
 		extensions: set[Extension];
 	};
