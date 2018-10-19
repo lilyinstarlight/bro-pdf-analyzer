@@ -252,17 +252,18 @@ bool PDF::EndOfFile() {
 	names->ToDictionary(PoDoFo::PdfName("JavaScript"), js_dict);
 	bool javascript = !js_dict.GetKeys().empty();
 
-	TableVal * extensions = new TableVal(new SetType(new TypeList(BifType::Record::PDF::Extension->Ref()), 0));
+	TypeList * tl = new TypeList(BifType::Record::PDF::Extension);
+	tl->Append(BifType::Record::PDF::Extension);
+	TableVal * extensions = new TableVal(new SetType(tl, 0));
 
-	std::vector<PoDoFo::PdfExtension> ext = doc.GetPdfExtensions();
-	for (unsigned int idx = 0; idx < ext.size(); ++idx) {
+	for (const PoDoFo::PdfExtension & ext : doc.GetPdfExtensions()) {
 		RecordVal * extension = new RecordVal(BifType::Record::PDF::Extension);
 
-		extension->Assign(0, new StringVal(ext[idx].getNamespace()));
-		extension->Assign(1, new StringVal(getVersionString(ext[idx].getBaseVersion())));
-		extension->Assign(2, new Val(ext[idx].getLevel(), TYPE_INT));
+		extension->Assign(0, new StringVal(ext.getNamespace()));
+		extension->Assign(1, new StringVal(getVersionString(ext.getBaseVersion())));
+		extension->Assign(2, new Val(ext.getLevel(), TYPE_INT));
 
-		extensions->Assign(new Val(idx, TYPE_INT), extension);
+		extensions->Assign(extension, nullptr);
 	}
 
 	RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
