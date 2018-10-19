@@ -34,63 +34,6 @@ bool PDF::EndOfFile() {
 #else
 		doc.Load(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
 #endif
-
-		string version;
-
-		switch (doc.GetPdfVersion()) {
-			case PoDoFo::ePdfVersion_1_0:
-				version = "1.0";
-				break;
-
-			case PoDoFo::ePdfVersion_1_1:
-				version = "1.1";
-				break;
-
-			case PoDoFo::ePdfVersion_1_2:
-				version = "1.2";
-				break;
-
-			case PoDoFo::ePdfVersion_1_3:
-				version = "1.3";
-				break;
-
-			case PoDoFo::ePdfVersion_1_4:
-				version = "1.4";
-				break;
-
-			case PoDoFo::ePdfVersion_1_5:
-				version = "1.5";
-				break;
-
-			case PoDoFo::ePdfVersion_1_6:
-				version = "1.6";
-				break;
-
-			case PoDoFo::ePdfVersion_1_7:
-				version = "1.7";
-				break;
-		}
-
-		PoDoFo::PdfNamesTree * names = doc.GetNamesTree();
-
-		PoDoFo::PdfDictionary emb_dict;
-		names->ToDictionary(PoDoFo::PdfName("EmbeddedFiles"), emb_dict);
-		bool embedded = !emb_dict.GetKeys().empty();
-
-		PoDoFo::PdfDictionary js_dict;
-		names->ToDictionary(PoDoFo::PdfName("JavaScript"), js_dict);
-		bool javascript = !js_dict.GetKeys().empty();
-
-		RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
-
-		if (!version.empty())
-			info->Assign(0, new StringVal(version));
-
-		info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
-		info->Assign(2, new Val(embedded, TYPE_BOOL));
-		info->Assign(3, new Val(javascript, TYPE_BOOL));
-
-		BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 	}
 	catch (const PoDoFo::PdfError & e) {
 		BifEnum::PDF::Error err;
@@ -320,9 +263,67 @@ bool PDF::EndOfFile() {
 		}
 
 		BifEvent::generate_pdf_error((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), new EnumVal(err, BifType::Enum::PDF::Error));
-
-		return false;
 	}
+
+	if (!doc.IsLoaded())
+		return false;
+
+	string version;
+
+	switch (doc.GetPdfVersion()) {
+		case PoDoFo::ePdfVersion_1_0:
+			version = "1.0";
+			break;
+
+		case PoDoFo::ePdfVersion_1_1:
+			version = "1.1";
+			break;
+
+		case PoDoFo::ePdfVersion_1_2:
+			version = "1.2";
+			break;
+
+		case PoDoFo::ePdfVersion_1_3:
+			version = "1.3";
+			break;
+
+		case PoDoFo::ePdfVersion_1_4:
+			version = "1.4";
+			break;
+
+		case PoDoFo::ePdfVersion_1_5:
+			version = "1.5";
+			break;
+
+		case PoDoFo::ePdfVersion_1_6:
+			version = "1.6";
+			break;
+
+		case PoDoFo::ePdfVersion_1_7:
+			version = "1.7";
+			break;
+	}
+
+	PoDoFo::PdfNamesTree * names = doc.GetNamesTree();
+
+	PoDoFo::PdfDictionary emb_dict;
+	names->ToDictionary(PoDoFo::PdfName("EmbeddedFiles"), emb_dict);
+	bool embedded = !emb_dict.GetKeys().empty();
+
+	PoDoFo::PdfDictionary js_dict;
+	names->ToDictionary(PoDoFo::PdfName("JavaScript"), js_dict);
+	bool javascript = !js_dict.GetKeys().empty();
+
+	RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
+
+	if (!version.empty())
+		info->Assign(0, new StringVal(version));
+
+	info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
+	info->Assign(2, new Val(embedded, TYPE_BOOL));
+	info->Assign(3, new Val(javascript, TYPE_BOOL));
+
+	BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 
 	return true;
 }
