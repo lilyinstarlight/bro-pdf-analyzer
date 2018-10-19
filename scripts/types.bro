@@ -1,11 +1,18 @@
 module PDF;
 
 export {
+	type Extension: record {
+		namespace: string;
+		base: string;
+		level: int;
+	};
+
 	type Info: record {
 		version: string &optional;
 		pages: count;
 		embedded: bool;
 		javascript: bool;
+		extensions: set[Extension];
 	};
 
 	type Error: enum {

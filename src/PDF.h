@@ -8,6 +8,9 @@
 #include <file_analysis/Analyzer.h>
 #include <file_analysis/File.h>
 
+#include "events.bif.h"
+#include "pdf.bif.h"
+
 // fix macro collisions
 #pragma push_macro("IsBool")
 #undef IsBool
@@ -32,6 +35,9 @@ class PDF : public file_analysis::Analyzer {
 
 	protected:
 		PDF(RecordVal * args, File * file);
+
+		string getVersionString(PoDoFo::EPdfVersion version) const;
+		BifEnum::PDF::Error convertError(PoDoFo::EPdfError err) const;
 
 		string pdf_data;
 

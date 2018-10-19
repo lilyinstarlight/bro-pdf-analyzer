@@ -2,9 +2,6 @@
 
 #include "PDF.h"
 
-#include "events.bif.h"
-#include "pdf.bif.h"
-
 using namespace file_analysis;
 
 PDF::PDF(RecordVal * args, File * file) : file_analysis::Analyzer(file_mgr->GetComponentTag("PDF"), args, file) {
@@ -13,6 +10,209 @@ PDF::PDF(RecordVal * args, File * file) : file_analysis::Analyzer(file_mgr->GetC
 }
 
 PDF::~PDF() {
+}
+
+string PDF::getVersionString(PoDoFo::EPdfVersion version) const {
+	switch (version) {
+		case PoDoFo::ePdfVersion_1_0:
+			return "1.0";
+
+		case PoDoFo::ePdfVersion_1_1:
+			return "1.1";
+
+		case PoDoFo::ePdfVersion_1_2:
+			return "1.2";
+
+		case PoDoFo::ePdfVersion_1_3:
+			return "1.3";
+
+		case PoDoFo::ePdfVersion_1_4:
+			return "1.4";
+
+		case PoDoFo::ePdfVersion_1_5:
+			return "1.5";
+
+		case PoDoFo::ePdfVersion_1_6:
+			return "1.6";
+
+		case PoDoFo::ePdfVersion_1_7:
+			return "1.7";
+	}
+
+	return "";
+}
+
+BifEnum::PDF::Error PDF::convertError(PoDoFo::EPdfError err) const {
+		switch(err) {
+			case PoDoFo::ePdfError_ErrOk:
+				return BifEnum::PDF::ERR_OK;
+
+			case PoDoFo::ePdfError_TestFailed:
+				return BifEnum::PDF::TEST_FAILED;
+
+			case PoDoFo::ePdfError_InvalidHandle:
+				return BifEnum::PDF::INVALID_HANDLE;
+
+			case PoDoFo::ePdfError_FileNotFound:
+				return BifEnum::PDF::FILE_NOT_FOUND;
+
+			case PoDoFo::ePdfError_InvalidDeviceOperation:
+				return BifEnum::PDF::INVALID_DEVICE_OPERATION;
+
+			case PoDoFo::ePdfError_UnexpectedEOF:
+				return BifEnum::PDF::UNEXPECTED_EOF;
+
+			case PoDoFo::ePdfError_OutOfMemory:
+				return BifEnum::PDF::OUT_OF_MEMORY;
+
+			case PoDoFo::ePdfError_ValueOutOfRange:
+				return BifEnum::PDF::VALUE_OUT_OF_RANGE;
+
+			case PoDoFo::ePdfError_InternalLogic:
+				return BifEnum::PDF::INTERNAL_LOGIC;
+
+			case PoDoFo::ePdfError_InvalidEnumValue:
+				return BifEnum::PDF::INVALID_ENUM_VALUE;
+
+			case PoDoFo::ePdfError_PageNotFound:
+				return BifEnum::PDF::PAGE_NOT_FOUND;
+
+			case PoDoFo::ePdfError_NoPdfFile:
+				return BifEnum::PDF::NO_PDF_FILE;
+
+			case PoDoFo::ePdfError_NoXRef:
+				return BifEnum::PDF::NO_XREF;
+
+			case PoDoFo::ePdfError_NoTrailer:
+				return BifEnum::PDF::NO_TRAILER;
+
+			case PoDoFo::ePdfError_NoNumber:
+				return BifEnum::PDF::NO_NUMBER;
+
+			case PoDoFo::ePdfError_NoObject:
+				return BifEnum::PDF::NO_OBJECT;
+
+			case PoDoFo::ePdfError_NoEOFToken:
+				return BifEnum::PDF::NO_EOF_TOKEN;
+
+			case PoDoFo::ePdfError_InvalidTrailerSize:
+				return BifEnum::PDF::INVALID_TRAILER_SIZE;
+
+			case PoDoFo::ePdfError_InvalidLinearization:
+				return BifEnum::PDF::INVALID_LINEARIZATION;
+
+			case PoDoFo::ePdfError_InvalidDataType:
+				return BifEnum::PDF::INVALID_DATA_TYPE;
+
+			case PoDoFo::ePdfError_InvalidXRef:
+				return BifEnum::PDF::INVALID_XREF;
+
+			case PoDoFo::ePdfError_InvalidXRefStream:
+				return BifEnum::PDF::INVALID_XREF_STREAM;
+
+			case PoDoFo::ePdfError_InvalidXRefType:
+				return BifEnum::PDF::INVALID_XREF_TYPE;
+
+			case PoDoFo::ePdfError_InvalidPredictor:
+				return BifEnum::PDF::INVALID_PREDICTOR;
+
+			case PoDoFo::ePdfError_InvalidStrokeStyle:
+				return BifEnum::PDF::INVALID_STROKE_STYLE;
+
+			case PoDoFo::ePdfError_InvalidHexString:
+				return BifEnum::PDF::INVALID_HEX_STRING;
+
+			case PoDoFo::ePdfError_InvalidStream:
+				return BifEnum::PDF::INVALID_STREAM;
+
+			case PoDoFo::ePdfError_InvalidStreamLength:
+				return BifEnum::PDF::INVALID_STREAM_LENGTH;
+
+			case PoDoFo::ePdfError_InvalidKey:
+				return BifEnum::PDF::INVALID_KEY;
+
+			case PoDoFo::ePdfError_InvalidName:
+				return BifEnum::PDF::INVALID_NAME;
+
+			case PoDoFo::ePdfError_InvalidEncryptionDict:
+				return BifEnum::PDF::INVALID_ENCRYPTION_DICT;
+
+			case PoDoFo::ePdfError_InvalidPassword:
+				return BifEnum::PDF::INVALID_PASSWORD;
+
+			case PoDoFo::ePdfError_InvalidFontFile:
+				return BifEnum::PDF::INVALID_FONT_FILE;
+
+			case PoDoFo::ePdfError_InvalidContentStream:
+				return BifEnum::PDF::INVALID_CONTENT_STREAM;
+
+			case PoDoFo::ePdfError_UnsupportedFilter:
+				return BifEnum::PDF::UNSUPPORTED_FILTER;
+
+			case PoDoFo::ePdfError_UnsupportedFontFormat:
+				return BifEnum::PDF::UNSUPPORTED_FONT_FORMAT;
+
+			case PoDoFo::ePdfError_ActionAlreadyPresent:
+				return BifEnum::PDF::ACTION_ALREADY_PRESENT;
+
+			case PoDoFo::ePdfError_WrongDestinationType:
+				return BifEnum::PDF::WRONG_DESTINATION_TYPE;
+
+			case PoDoFo::ePdfError_MissingEndStream:
+				return BifEnum::PDF::MISSING_END_STREAM;
+
+			case PoDoFo::ePdfError_Date:
+				return BifEnum::PDF::DATE;
+
+			case PoDoFo::ePdfError_Flate:
+				return BifEnum::PDF::FLATE;
+
+			case PoDoFo::ePdfError_FreeType:
+				return BifEnum::PDF::FREETYPE;
+
+			case PoDoFo::ePdfError_SignatureError:
+				return BifEnum::PDF::SIGNATURE_ERROR;
+
+			case PoDoFo::ePdfError_MutexError:
+				return BifEnum::PDF::MUTEX_ERROR;
+
+			case PoDoFo::ePdfError_UnsupportedImageFormat:
+				return BifEnum::PDF::UNSUPPORTED_IMAGE_FORMAT;
+
+			case PoDoFo::ePdfError_CannotConvertColor:
+				return BifEnum::PDF::CANNOT_CONVERT_COLOR;
+
+			case PoDoFo::ePdfError_NotImplemented:
+				return BifEnum::PDF::NOT_IMPLEMENTED;
+
+			case PoDoFo::ePdfError_DestinationAlreadyPresent:
+				return BifEnum::PDF::DESTINATION_ALREADY_PRESENT;
+
+			case PoDoFo::ePdfError_ChangeOnImmutable:
+				return BifEnum::PDF::CHANGE_ON_IMMUTABLE;
+
+#if PODOFO_MAJOR > 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR > 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 5)
+			case PoDoFo::ePdfError_NotCompiled:
+				return BifEnum::PDF::NOT_COMPILED;
+
+			case PoDoFo::ePdfError_BrokenFile:
+				return BifEnum::PDF::BROKEN_FILE;
+
+			case PoDoFo::ePdfError_OutlineItemAlreadyPresent:
+				return BifEnum::PDF::OUTLINE_ITEM_ALREADY_PRESENT;
+
+			case PoDoFo::ePdfError_NotLoadedForUpdate:
+				return BifEnum::PDF::NOT_LOADED_FOR_UPDATE;
+
+			case PoDoFo::ePdfError_CannotEncryptedForUpdate:
+				return BifEnum::PDF::CANNOT_ENCRYPTED_FOR_UPDATE;
+#endif
+
+			case PoDoFo::ePdfError_Unknown:
+				return BifEnum::PDF::UNKNOWN;
+		}
+
+		return BifEnum::PDF::UNKNOWN;
 }
 
 bool PDF::DeliverStream(const u_char * data, uint64 len) {
@@ -35,274 +235,12 @@ bool PDF::EndOfFile() {
 		doc.Load(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
 #endif
 	}
-	catch (const PoDoFo::PdfError & e) {
-		BifEnum::PDF::Error err;
-
-		switch(e.GetError()) {
-			case PoDoFo::ePdfError_ErrOk:
-				err = BifEnum::PDF::ERR_OK;
-				break;
-
-			case PoDoFo::ePdfError_TestFailed:
-				err = BifEnum::PDF::TEST_FAILED;
-				break;
-
-			case PoDoFo::ePdfError_InvalidHandle:
-				err = BifEnum::PDF::INVALID_HANDLE;
-				break;
-
-			case PoDoFo::ePdfError_FileNotFound:
-				err = BifEnum::PDF::FILE_NOT_FOUND;
-				break;
-
-			case PoDoFo::ePdfError_InvalidDeviceOperation:
-				err = BifEnum::PDF::INVALID_DEVICE_OPERATION;
-				break;
-
-			case PoDoFo::ePdfError_UnexpectedEOF:
-				err = BifEnum::PDF::UNEXPECTED_EOF;
-				break;
-
-			case PoDoFo::ePdfError_OutOfMemory:
-				err = BifEnum::PDF::OUT_OF_MEMORY;
-				break;
-
-			case PoDoFo::ePdfError_ValueOutOfRange:
-				err = BifEnum::PDF::VALUE_OUT_OF_RANGE;
-				break;
-
-			case PoDoFo::ePdfError_InternalLogic:
-				err = BifEnum::PDF::INTERNAL_LOGIC;
-				break;
-
-			case PoDoFo::ePdfError_InvalidEnumValue:
-				err = BifEnum::PDF::INVALID_ENUM_VALUE;
-				break;
-
-			case PoDoFo::ePdfError_PageNotFound:
-				err = BifEnum::PDF::PAGE_NOT_FOUND;
-				break;
-
-			case PoDoFo::ePdfError_NoPdfFile:
-				err = BifEnum::PDF::NO_PDF_FILE;
-				break;
-
-			case PoDoFo::ePdfError_NoXRef:
-				err = BifEnum::PDF::NO_XREF;
-				break;
-
-			case PoDoFo::ePdfError_NoTrailer:
-				err = BifEnum::PDF::NO_TRAILER;
-				break;
-
-			case PoDoFo::ePdfError_NoNumber:
-				err = BifEnum::PDF::NO_NUMBER;
-				break;
-
-			case PoDoFo::ePdfError_NoObject:
-				err = BifEnum::PDF::NO_OBJECT;
-				break;
-
-			case PoDoFo::ePdfError_NoEOFToken:
-				err = BifEnum::PDF::NO_EOF_TOKEN;
-				break;
-
-			case PoDoFo::ePdfError_InvalidTrailerSize:
-				err = BifEnum::PDF::INVALID_TRAILER_SIZE;
-				break;
-
-			case PoDoFo::ePdfError_InvalidLinearization:
-				err = BifEnum::PDF::INVALID_LINEARIZATION;
-				break;
-
-			case PoDoFo::ePdfError_InvalidDataType:
-				err = BifEnum::PDF::INVALID_DATA_TYPE;
-				break;
-
-			case PoDoFo::ePdfError_InvalidXRef:
-				err = BifEnum::PDF::INVALID_XREF;
-				break;
-
-			case PoDoFo::ePdfError_InvalidXRefStream:
-				err = BifEnum::PDF::INVALID_XREF_STREAM;
-				break;
-
-			case PoDoFo::ePdfError_InvalidXRefType:
-				err = BifEnum::PDF::INVALID_XREF_TYPE;
-				break;
-
-			case PoDoFo::ePdfError_InvalidPredictor:
-				err = BifEnum::PDF::INVALID_PREDICTOR;
-				break;
-
-			case PoDoFo::ePdfError_InvalidStrokeStyle:
-				err = BifEnum::PDF::INVALID_STROKE_STYLE;
-				break;
-
-			case PoDoFo::ePdfError_InvalidHexString:
-				err = BifEnum::PDF::INVALID_HEX_STRING;
-				break;
-
-			case PoDoFo::ePdfError_InvalidStream:
-				err = BifEnum::PDF::INVALID_STREAM;
-				break;
-
-			case PoDoFo::ePdfError_InvalidStreamLength:
-				err = BifEnum::PDF::INVALID_STREAM_LENGTH;
-				break;
-
-			case PoDoFo::ePdfError_InvalidKey:
-				err = BifEnum::PDF::INVALID_KEY;
-				break;
-
-			case PoDoFo::ePdfError_InvalidName:
-				err = BifEnum::PDF::INVALID_NAME;
-				break;
-
-			case PoDoFo::ePdfError_InvalidEncryptionDict:
-				err = BifEnum::PDF::INVALID_ENCRYPTION_DICT;
-				break;
-
-			case PoDoFo::ePdfError_InvalidPassword:
-				err = BifEnum::PDF::INVALID_PASSWORD;
-				break;
-
-			case PoDoFo::ePdfError_InvalidFontFile:
-				err = BifEnum::PDF::INVALID_FONT_FILE;
-				break;
-
-			case PoDoFo::ePdfError_InvalidContentStream:
-				err = BifEnum::PDF::INVALID_CONTENT_STREAM;
-				break;
-
-			case PoDoFo::ePdfError_UnsupportedFilter:
-				err = BifEnum::PDF::UNSUPPORTED_FILTER;
-				break;
-
-			case PoDoFo::ePdfError_UnsupportedFontFormat:
-				err = BifEnum::PDF::UNSUPPORTED_FONT_FORMAT;
-				break;
-
-			case PoDoFo::ePdfError_ActionAlreadyPresent:
-				err = BifEnum::PDF::ACTION_ALREADY_PRESENT;
-				break;
-
-			case PoDoFo::ePdfError_WrongDestinationType:
-				err = BifEnum::PDF::WRONG_DESTINATION_TYPE;
-				break;
-
-			case PoDoFo::ePdfError_MissingEndStream:
-				err = BifEnum::PDF::MISSING_END_STREAM;
-				break;
-
-			case PoDoFo::ePdfError_Date:
-				err = BifEnum::PDF::DATE;
-				break;
-
-			case PoDoFo::ePdfError_Flate:
-				err = BifEnum::PDF::FLATE;
-				break;
-
-			case PoDoFo::ePdfError_FreeType:
-				err = BifEnum::PDF::FREETYPE;
-				break;
-
-			case PoDoFo::ePdfError_SignatureError:
-				err = BifEnum::PDF::SIGNATURE_ERROR;
-				break;
-
-			case PoDoFo::ePdfError_MutexError:
-				err = BifEnum::PDF::MUTEX_ERROR;
-				break;
-
-			case PoDoFo::ePdfError_UnsupportedImageFormat:
-				err = BifEnum::PDF::UNSUPPORTED_IMAGE_FORMAT;
-				break;
-
-			case PoDoFo::ePdfError_CannotConvertColor:
-				err = BifEnum::PDF::CANNOT_CONVERT_COLOR;
-				break;
-
-			case PoDoFo::ePdfError_NotImplemented:
-				err = BifEnum::PDF::NOT_IMPLEMENTED;
-				break;
-
-			case PoDoFo::ePdfError_DestinationAlreadyPresent:
-				err = BifEnum::PDF::DESTINATION_ALREADY_PRESENT;
-				break;
-
-			case PoDoFo::ePdfError_ChangeOnImmutable:
-				err = BifEnum::PDF::CHANGE_ON_IMMUTABLE;
-				break;
-
-#if PODOFO_MAJOR > 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR > 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 5)
-			case PoDoFo::ePdfError_NotCompiled:
-				err = BifEnum::PDF::NOT_COMPILED;
-				break;
-
-			case PoDoFo::ePdfError_BrokenFile:
-				err = BifEnum::PDF::BROKEN_FILE;
-				break;
-
-			case PoDoFo::ePdfError_OutlineItemAlreadyPresent:
-				err = BifEnum::PDF::OUTLINE_ITEM_ALREADY_PRESENT;
-				break;
-
-			case PoDoFo::ePdfError_NotLoadedForUpdate:
-				err = BifEnum::PDF::NOT_LOADED_FOR_UPDATE;
-				break;
-
-			case PoDoFo::ePdfError_CannotEncryptedForUpdate:
-				err = BifEnum::PDF::CANNOT_ENCRYPTED_FOR_UPDATE;
-				break;
-#endif
-
-			case PoDoFo::ePdfError_Unknown:
-				err = BifEnum::PDF::UNKNOWN;
-				break;
-		}
-
-		BifEvent::generate_pdf_error((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), new EnumVal(err, BifType::Enum::PDF::Error));
+	catch (const PoDoFo::PdfError & err) {
+		BifEvent::generate_pdf_error((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), new EnumVal(convertError(err.GetError()), BifType::Enum::PDF::Error));
 	}
 
 	if (!doc.IsLoaded())
 		return false;
-
-	string version;
-
-	switch (doc.GetPdfVersion()) {
-		case PoDoFo::ePdfVersion_1_0:
-			version = "1.0";
-			break;
-
-		case PoDoFo::ePdfVersion_1_1:
-			version = "1.1";
-			break;
-
-		case PoDoFo::ePdfVersion_1_2:
-			version = "1.2";
-			break;
-
-		case PoDoFo::ePdfVersion_1_3:
-			version = "1.3";
-			break;
-
-		case PoDoFo::ePdfVersion_1_4:
-			version = "1.4";
-			break;
-
-		case PoDoFo::ePdfVersion_1_5:
-			version = "1.5";
-			break;
-
-		case PoDoFo::ePdfVersion_1_6:
-			version = "1.6";
-			break;
-
-		case PoDoFo::ePdfVersion_1_7:
-			version = "1.7";
-			break;
-	}
 
 	PoDoFo::PdfNamesTree * names = doc.GetNamesTree();
 
@@ -314,7 +252,22 @@ bool PDF::EndOfFile() {
 	names->ToDictionary(PoDoFo::PdfName("JavaScript"), js_dict);
 	bool javascript = !js_dict.GetKeys().empty();
 
+	TableVal * extensions = new TableVal(new SetType(new TypeList(BifType::Record::PDF::Extension->Ref()), 0));
+
+	std::vector<PoDoFo::PdfExtension> ext = doc.GetPdfExtensions();
+	for (unsigned int idx = 0; idx < ext.size(); ++idx) {
+		RecordVal * extension = new RecordVal(BifType::Record::PDF::Extension);
+
+		extension->Assign(0, new StringVal(ext[idx].getNamespace()));
+		extension->Assign(1, new StringVal(getVersionString(ext[idx].getBaseVersion())));
+		extension->Assign(2, new Val(ext[idx].getLevel(), TYPE_INT));
+
+		extensions->Assign(new Val(idx, TYPE_INT), extension);
+	}
+
 	RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
+
+	string version = getVersionString(doc.GetPdfVersion());
 
 	if (!version.empty())
 		info->Assign(0, new StringVal(version));
@@ -322,6 +275,7 @@ bool PDF::EndOfFile() {
 	info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
 	info->Assign(2, new Val(embedded, TYPE_BOOL));
 	info->Assign(3, new Val(javascript, TYPE_BOOL));
+	info->Assign(4, extensions);
 
 	BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 
