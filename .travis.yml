@@ -12,6 +12,7 @@ addons:
       - libkrb5-dev
       - sqlite3
       - swig
+      - libpodofo-dev
 
 install:
   - git clone --recursive https://github.com/bro/bro.git "$HOME"/bro-src
@@ -21,6 +22,3 @@ install:
 
 script:
   - PATH="$HOME/.local/bin:$HOME/bro/bin:$PATH" bro-pkg test .
-
-after_failure:
-  - cat "$HOME"/.bro-pkg/logs/bro-pdf-analyzer-build.log
