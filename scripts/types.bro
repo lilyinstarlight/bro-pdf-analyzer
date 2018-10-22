@@ -8,10 +8,11 @@ export {
 	};
 
 	type Info: record {
-		version: string &optional;
+		version: string;
 		pages: count;
 		files: bool;
 		javascript: bool;
+		encrypted: bool;
 		extensions: set[Extension];
 	};
 

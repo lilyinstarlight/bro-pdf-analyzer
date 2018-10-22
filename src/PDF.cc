@@ -268,15 +268,12 @@ bool PDF::EndOfFile() {
 
 	RecordVal * info = new RecordVal(BifType::Record::PDF::Info);
 
-	string version = getVersionString(doc.GetPdfVersion());
-
-	if (!version.empty())
-		info->Assign(0, new StringVal(version));
-
+	info->Assign(0, new StringVal(getVersionString(doc.GetPdfVersion())));
 	info->Assign(1, new Val(doc.GetPageCount(), TYPE_COUNT));
 	info->Assign(2, new Val(embedded, TYPE_BOOL));
 	info->Assign(3, new Val(javascript, TYPE_BOOL));
-	info->Assign(4, extensions);
+	info->Assign(4, new Val(doc.GetEncrypted(), TYPE_BOOL));
+	info->Assign(5, extensions);
 
 	BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 
