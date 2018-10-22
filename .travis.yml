@@ -22,3 +22,6 @@ install:
 
 script:
   - PATH="$HOME/.local/bin:$HOME/bro/bin:$PATH" bro-pkg test .
+
+after_failure:
+  - cat /home/travis/.bro-pkg/logs/bro-pdf-analyzer-build.log
