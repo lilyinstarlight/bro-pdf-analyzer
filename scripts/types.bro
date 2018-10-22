@@ -1,6 +1,17 @@
 module PDF;
 
 export {
+	type Allowed: record {
+		printing: bool;
+		editing: bool;
+		copying: bool;
+		note_editing: bool;
+		fill_and_sign: bool;
+		accessibility: bool;
+		doc_assembly: bool;
+		high_printing: bool;
+	};
+
 	type Extension: record {
 		namespace: string;
 		base: string;
@@ -13,6 +24,8 @@ export {
 		files: bool;
 		javascript: bool;
 		encrypted: bool;
+		linearized: bool;
+		allowed: Allowed;
 		extensions: set[Extension];
 	};
 

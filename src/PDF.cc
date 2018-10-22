@@ -252,9 +252,20 @@ bool PDF::EndOfFile() {
 	names->ToDictionary(PoDoFo::PdfName("JavaScript"), js_dict);
 	bool javascript = !js_dict.GetKeys().empty();
 
-	TypeList * tl = new TypeList(BifType::Record::PDF::Extension);
-	tl->Append(BifType::Record::PDF::Extension);
-	TableVal * extensions = new TableVal(new SetType(tl, 0));
+	RecordVal * allowed = new RecordVal(BifType::Record::PDF::Allowed);
+
+	allowed->Assign(0, new Val(doc.IsPrintAllowed(), TYPE_BOOL));
+	allowed->Assign(1, new Val(doc.IsEditAllowed(), TYPE_BOOL));
+	allowed->Assign(2, new Val(doc.IsCopyAllowed(), TYPE_BOOL));
+	allowed->Assign(3, new Val(doc.IsEditNotesAllowed(), TYPE_BOOL));
+	allowed->Assign(4, new Val(doc.IsFillAndSignAllowed(), TYPE_BOOL));
+	allowed->Assign(5, new Val(doc.IsAccessibilityAllowed(), TYPE_BOOL));
+	allowed->Assign(6, new Val(doc.IsDocAssemblyAllowed(), TYPE_BOOL));
+	allowed->Assign(7, new Val(doc.IsHighPrintAllowed(), TYPE_BOOL));
+
+	TypeList * ext_tl = new TypeList(BifType::Record::PDF::Extension);
+	ext_tl->Append(BifType::Record::PDF::Extension);
+	TableVal * extensions = new TableVal(new SetType(ext_tl, 0));
 
 	for (const PoDoFo::PdfExtension & ext : doc.GetPdfExtensions()) {
 		RecordVal * extension = new RecordVal(BifType::Record::PDF::Extension);
@@ -273,7 +284,9 @@ bool PDF::EndOfFile() {
 	info->Assign(2, new Val(embedded, TYPE_BOOL));
 	info->Assign(3, new Val(javascript, TYPE_BOOL));
 	info->Assign(4, new Val(doc.GetEncrypted(), TYPE_BOOL));
-	info->Assign(5, extensions);
+	info->Assign(5, new Val(doc.IsLinearized(), TYPE_BOOL));
+	info->Assign(6, allowed);
+	info->Assign(7, extensions);
 
 	BifEvent::generate_pdf_info((analyzer::Analyzer *)this, GetFile()->GetVal()->Ref(), info);
 
