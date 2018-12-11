@@ -15,13 +15,13 @@ addons:
       - libpodofo-dev
 
 install:
-  - git clone --recursive https://github.com/bro/bro.git "$HOME"/bro-src
-  - pushd "$HOME"/bro-src && ./configure --prefix="$HOME"/bro && make && make install && popd
+  - git clone --recursive https://github.com/zeek/zeek.git "$HOME"/zeek-src
+  - pushd "$HOME"/zeek-src && ./configure --prefix="$HOME"/zeek && make && make install && popd
   - pip install --user bro-pkg
-  - PATH="$HOME/.local/bin:$HOME/bro/bin:$PATH" bro-pkg autoconfig
+  - PATH="$HOME/.local/bin:$HOME/zeek/bin:$PATH" bro-pkg autoconfig
 
 script:
-  - PATH="$HOME/.local/bin:$HOME/bro/bin:$PATH" bro-pkg test .
+  - PATH="$HOME/.local/bin:$HOME/zeek/bin:$PATH" bro-pkg test .
 
 after_failure:
   - cat /home/travis/.bro-pkg/logs/bro-pdf-analyzer-build.log
