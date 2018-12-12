@@ -197,9 +197,6 @@ BifEnum::PDF::Error PDF::convertError(PoDoFo::EPdfError err) const {
 		case PoDoFo::ePdfError_NotCompiled:
 			return BifEnum::PDF::NOT_COMPILED;
 
-		case PoDoFo::ePdfError_BrokenFile:
-			return BifEnum::PDF::BROKEN_FILE;
-
 		case PoDoFo::ePdfError_OutlineItemAlreadyPresent:
 			return BifEnum::PDF::OUTLINE_ITEM_ALREADY_PRESENT;
 
@@ -208,6 +205,11 @@ BifEnum::PDF::Error PDF::convertError(PoDoFo::EPdfError err) const {
 
 		case PoDoFo::ePdfError_CannotEncryptedForUpdate:
 			return BifEnum::PDF::CANNOT_ENCRYPTED_FOR_UPDATE;
+#endif
+
+#if PODOFO_MAJOR > 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR > 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 6)
+		case PoDoFo::ePdfError_BrokenFile:
+			return BifEnum::PDF::BROKEN_FILE;
 #endif
 
 		case PoDoFo::ePdfError_Unknown:
@@ -236,7 +238,7 @@ bool PDF::EndOfFile() {
 #if PODOFO_MAJOR > 0 || (PODOFO_MAJOR == 0 && PODOFO_MINOR > 9) || (PODOFO_MAJOR == 0 && PODOFO_MINOR == 9 && PODOFO_REVISION >= 6)
 		doc.LoadFromBuffer(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
 #else
-		doc.Load(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size());
+		doc.Load(reinterpret_cast<const char *>(pdf_data.data()), pdf_data.size(), false);
 #endif
 	}
 	catch (const PoDoFo::PdfError & err) {
