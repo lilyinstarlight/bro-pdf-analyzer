@@ -14,5 +14,8 @@ plugin::Configuration Plugin::Configure() {
 	config.description = "a PDF file analyzer for Zeek (Bro)";
 	config.version.major = 0;
 	config.version.minor = 1;
+#if BRO_PLUGIN_API_VERSION >= 7
+	config.version.patch = 0;
+#endif
 	return config;
 }
